@@ -1,0 +1,13 @@
+*
+.gitignore
+!Assets/
+!Assets/**
+!Packages/
+!Packages/**
+!*Settings/
+!*Settings/**
+!Library/
+!Library/**
+Library/*Cache
+Library/*Artifact*
+Library/Bee/*artifact*
