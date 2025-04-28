@@ -16,13 +16,15 @@ public class Runner : MonoBehaviour
         Checker();
     }
 
+    float t=0f;
     void Update()
     {
-        while(!m.Winner())
+        //check time so ai doesn't move immediately
+        if(!m.Winner()&&t>1f)
         {
             if(m.PlayerTurn())
             {
-                if(Input.GetKeyDown(KeyCode.H))
+                if(Input.GetKeyDown(KeyCode.L))
                 {
                     //move right
                     if(xpos+1<cx.Length)
@@ -31,7 +33,7 @@ public class Runner : MonoBehaviour
                         checker.transform.position=new Vector3(this.cx[xpos],cy,0f);
                     }
                 }
-                if(Input.GetKeyDown(KeyCode.L))
+                if(Input.GetKeyDown(KeyCode.H))
                 {
                     //move left
                     if(xpos-1>=0)
@@ -44,15 +46,23 @@ public class Runner : MonoBehaviour
                 {
                     //drop the piece
                     if(m.PlayerMove(xpos)){Drop();}
+                    t=0f;
                 }
             }
             else
             {
                 //its the enemy's turn
                 checker.transform.position=new Vector3(this.cx[m.EnemyMove()],cy,0f);
+                checker.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
                 Drop();
+                t=0f;
             }
         }
+        else if(m.Winner())
+        {
+            Destroy(checker);
+        }
+        t+=Time.deltaTime; 
     }
 
     private void Checker(){checker=Instantiate(prefab,new Vector3(cx[xpos],cy,0f),prefab.transform.rotation);}
